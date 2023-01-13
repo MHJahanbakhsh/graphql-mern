@@ -6,7 +6,7 @@ const {GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList, 
 const ClientType = new GraphQLObjectType({
     name:'Client',
     fields:()=>({
-        id:{type: GraphQLID}, //altough in sampleData, it is just a string number
+        id:{type: GraphQLID}, //although in sampleData, it is just a string number
         name:{type:GraphQLString},
         email:{type:GraphQLString},
         phone:{type:GraphQLString},
@@ -14,7 +14,7 @@ const ClientType = new GraphQLObjectType({
 })
 
 
-//Client type
+//Project type
 const ProjectType = new GraphQLObjectType({
     name:'Project',
     fields:()=>({
