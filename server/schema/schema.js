@@ -1,6 +1,9 @@
 const {projects,clients} = require('../sampleData')
-
 const {GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList, } = require('graphql')
+
+//mongoose models
+const Project = require('../models/Project')
+const Client = require('../models/Client')
 
 //Client type
 const ClientType = new GraphQLObjectType({
@@ -26,7 +29,7 @@ const ProjectType = new GraphQLObjectType({
             type:ClientType,
             resolve(parent,args){
                 console.log(parent) //parent is a project
-                return clients.find(client=>client.id ===parent.clientId)
+                return Client.findById(client=>client.id ===parent.clientId)
             }
         }
     })
@@ -40,7 +43,7 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(ProjectType),
             //we have no args here,hence no argument while addressing that query 
             resolve(parent,args){
-                return projects
+                return Project.find() //its wierd because still uses find method but give no arg to return everything. more intuitivly should have been findAll
             }
         },
         project:{
@@ -48,7 +51,7 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: GraphQLID}}, //adding args specifies that this query requires argument
             resolve(parent,args){ //for now this is just a regular function.but later will be a mongoose function
                 console.log(parent) //receive undefined. why? what is parent
-                return projects.find(project=>project.id===args.id)
+                return Project.findById(args.id)
             }
         },
 
@@ -56,7 +59,7 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(ClientType),
             //we have no args here,hence no argument while addressing that query 
             resolve(parent,args){
-                return clients
+                return Client.find()
             }
         },
         client:{
@@ -64,7 +67,7 @@ const RootQuery = new GraphQLObjectType({
             args: {id: {type: GraphQLID}}, //adding args specifies that this query requires argument
             resolve(parent,args){ //for now this is just a regular function.but later will be a mongoose function
                 console.log(parent) //receive undefined. why? what is parent
-                return clients.find(client=>client.id===args.id)
+                return Client.findById(args.id)
             }
         }
     }
